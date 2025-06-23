@@ -11,14 +11,14 @@ function HomeBanner () {
 
   const fontSize = isSmallScreen ? ' text-2xl ' : ' text-4xl ' ;
 
-  const containerStyles = isTinyScreen ? ' h-[75vh] flex-col justify-center py-20 ' : isMedScreen ? ' h-[75vh] flex-col justify-center ' : ' h-[90vh] ';
+  const containerStyles = isTinyScreen ? ' h-[75vh] flex-col justify-center py-20 px-6 ' : isMedScreen ? ' h-[75vh] flex-col justify-center px-12 ' : ' h-[90vh] px-12 ';
   const pictureDimensions = isMedScreen ? ' w-full h-1/2 ' : ' w-1/2 h-full ';
   const rollerDimensions = isMedScreen ? ' w-full h-1/2 ' : ' w-1/2 h-full ';
   const fillerWidth = isMedScreen ? ' w-0 ' : 'w-1/2';
 
   return(
     <>
-      <div className={containerStyles + " bg-tertiaryBg w-full flex relative px-12 "}>
+      <div className={containerStyles + " bg-tertiaryBg w-full flex relative "}>
         {/* <div className={fillerWidth + " h-full flex flex-col justify-center "}></div> */}
 
         {/* hero text with rolling brands */}
@@ -27,10 +27,10 @@ function HomeBanner () {
             <div className={fontSize}>
               Simple solutions for
             </div>
-            <div className="h-10 relative overflow-hidden duration-100 ">
-              <div className={"w-full absolute left-1/2 -translate-x-1/2 text-center uppercase font-bold text-highlight "} id="word_container">
+            <div className="h-8 sm:h-10 relative overflow-hidden duration-100 ">
+              <div className={"w-full absolute left-1/2 -translate-x-1/2 text-center uppercase font-bold text-highlight "} id={isSmallScreen ? "word_container-small" : "word_container"}>
                 {brands.map((brand) => {
-                  return <div className={''}>{brand}</div>
+                  return <div className={fontSize}>{brand}</div>
                 })}
               </div>
             </div>

@@ -15,7 +15,7 @@ root.render(
   <React.StrictMode>
     <ScreenProvider>
       <ModalProvider>
-        <BrowserRouter basename='/website'>
+        <BrowserRouter basename='/'>
           <Main/>
         </BrowserRouter>
       </ModalProvider>

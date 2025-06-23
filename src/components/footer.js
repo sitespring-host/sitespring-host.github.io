@@ -23,7 +23,7 @@ function ContactInfo(){
               Email
             </div>
             <div className="text-sm">
-              installs@connectappliance.com
+              contact@sitespring.ca
             </div>
           </div>
           <div>
@@ -31,10 +31,10 @@ function ContactInfo(){
               Phone
             </div>
             <div className="text-sm">
-              (226) 887-3737
+              (519) 400-2691
             </div>
           </div>
-          <div>
+          {/* <div>
             <div className="text-l">
               Socail
             </div>
@@ -46,7 +46,7 @@ function ContactInfo(){
                 <FaFacebookSquare className={socialLinkStyle}/>
               </Link>
             </div>
-          </div>
+          </div> */}
 
         </div>
       </div>

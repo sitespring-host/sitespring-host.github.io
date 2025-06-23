@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import logoPic from '../assets/logo.jpg';
+import { ReactComponent as LogoSvg} from '../assets/logo-small.svg';
 
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoIosClose } from "react-icons/io";
@@ -15,10 +15,8 @@ function Drawer ({closeDrawer, drawerOpen}) {
   const drawerWidth = drawerOpen ? " w-screen " : ' w-0 ';
 
   // styles
-  const menuItemStyle = 'bg-secondaryBg text-secondText text-lg my-3 px-5 py-2' + 
+  const menuItemStyle = 'bg-secondaryBg text-secondText text-lg my-3 px-5 py-2' +
     ' hover:bg-secondBg hover:cursor-pointer';
-
-  
 
   return (
     <>
@@ -38,13 +36,12 @@ function Drawer ({closeDrawer, drawerOpen}) {
 
           {/* logo at bottom */}
           <div className="absolute bottom-0 left-0 h-12 w-full flex items-center px-4 mx-auto mb-5 justify-between text-primaryText">
-            <img src={logoPic} alt="logo" className='w-12 h-12'/>
+            <div className='w-12'>
+              <LogoSvg />
+            </div>
             <div>
               <div>
-                CONNECT 
-              </div>
-              <div>
-                Appliance
+                SiteSpring
               </div>
             </div>
           </div>
@@ -58,8 +55,12 @@ function FloatingLogo() {
   return (
     <>
       {/* logo at bottom */}
-      <div className="z-50 fixed top-3 left-3 w-12 h-12 flex items-center justify-between text-white">
-      <NavLink to="/"><img src={logoPic} alt="logo" className='w-12 h-12'/></NavLink>
+      <div className="z-50 fixed top-3 left-3 w-14 h-12 flex items-center justify-around text-white bg-white">
+      <NavLink to="/">
+        <div className='w-12'>
+          <LogoSvg />
+        </div>
+      </NavLink>
     </div>
     </>
   )
