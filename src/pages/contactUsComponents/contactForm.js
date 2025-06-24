@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useForm } from '@formspree/react';
 import emailjs from 'emailjs-com';
 import ContactModal from "./contactModal";
 
@@ -10,22 +11,12 @@ const emailErrorMessage = "There was an error while sending your email, please t
 
 
 function ContactForm() {
-  const [modalMessage, setModalMessage] = useState(sentMessage);
-  const [modalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    subject: '',
     message: '',
   });
-
-  function openModal(message){
-    setModalMessage(message);
-    setModalOpen(true);
-  }
-
-  function closeModal(){
-    setModalOpen(false);
-  }
 
   // input change
   const handleInputChange = (e) => {
@@ -33,46 +24,12 @@ function ContactForm() {
     setFormData({ ...formData, [name]: value });
   }
 
-  // input verification on submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Check if any input field is empty
-    const isEmpty = Object.values(formData).some(value => value === '');
-
-    // check for proper email
-    const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const validEmail = emailReg.test(formData.email);
-
-    // check empty fields
-    if (isEmpty) {
-      openModal(missingFieldsMessage);
-    
-    // check valid email
-    } else if(!validEmail) {
-      openModal(invalidEmailMessage);
-
-    // proceed
-    } else {
-      console.log('Form submitted:', formData);
-      sendEmail(e);
+  const [state, handleSubmit, reset] = useForm("xyzjnldj", {
+    data: {
+      subject: formData.subject
     }
-  };
+  });
 
-  // send email to owner
-  function sendEmail(e){
-    e.preventDefault();
-
-    emailjs.sendForm('service_7d6hwmn', 'template_mmkoolq', e.target, 'qGkgBUkkqo3MDqlkU')
-      .then((result) => {
-          const form = document.getElementById("email-form");
-          form.reset();
-          openModal(sentMessage);
-      }, (error) => {
-          console.log(error.text);
-          openModal(emailErrorMessage);
-      });
-  }
 
   // styles
   const inputWrapperStyle = "relative py-4 ";
@@ -81,6 +38,17 @@ function ContactForm() {
     " focus:border-highlight ";
   const labelStyle = " absolute top-0 left-0 -translate-y-[50%] text-darkBg text-xl duration-200 " + 
     " peer-placeholder-shown:top-[50%] peer-focus:text-highlight";
+
+  if (state.succeeded){
+    return (
+      <>
+        <div className=" max-w-[650px] m-auto p-10 flex flex-col items-center">
+          <div>Thanks for reaching out! We’ve received your message and will get back to you shortly.</div>
+          <button type="submit" className="p-4 bg-highlight w-32 text-highlightText" onClick={reset}>Reset</button>
+        </div>
+      </>
+    )
+  }
 
   return (
     <>
@@ -98,20 +66,17 @@ function ContactForm() {
               </div>
             </div>
             <div className={inputWrapperStyle}>
-              <input name="email" placeholder="email" className={inputStyle} onChange={handleInputChange}/>
+              <input name="email" id="email" type="email" placeholder="email" className={inputStyle} onChange={handleInputChange}/>
               <label for="email" className={labelStyle}>Return Email</label>
             </div>
             <div className={inputWrapperStyle}>
-              <input name="message" placeholder="message" className={inputStyle} onChange={handleInputChange}/>
+              <input name="message" id="message" placeholder="message" className={inputStyle} onChange={handleInputChange}/>
               <label for="message" className={labelStyle}>Message</label>
             </div>
-            <button type="submit" className="p-4 bg-highlight w-32 text-highlightText">Send</button>
+            <button type="submit" className="p-4 bg-highlight w-32 text-highlightText" disabled={state.submitting}>Send</button>
           </div>
         </form>
       </div>
-
-      {/* modal */}
-      {modalOpen && <ContactModal closeModal={closeModal} modalMessage={modalMessage}/>}
     </>
   );
 }
